@@ -43,6 +43,13 @@ dig +short TXT _archive-key.cfi.co
 A signature that verifies against a key you got only from this repository proves nothing
 useful. The DNS record and <https://cfi.co/archive/> are the second and third sources.
 
+**GitHub's green "Verified" badge is a convenience, not the check.** It appears because the
+signing key is registered against a GitHub account, and it means GitHub verified the signature
+for you. That is GitHub vouching for GitHub: it tells you nothing if GitHub is the party you
+are trying not to rely on, and it would disappear if the key were ever unregistered, without
+anything about the commit changing. The commands above are the check. Run them, and confirm
+the fingerprint somewhere other than here.
+
 ## 3. The file existed on the date claimed
 
 ```bash
