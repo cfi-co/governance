@@ -25,6 +25,9 @@ VERSION="$1"; SRC="$2"; DRY=0
 
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+$ ]] || die "version must look like 3.0, got '$VERSION'"
 [ -f "$SRC" ] || die "source file not found: $SRC"
+[ "${SRC##*.}" = "md" ] || die "source must be markdown (.md), got '${SRC##*.}'. \
+The published form is text a reader can hash, diff and read without proprietary software. \
+Export the adopted document to markdown first."
 
 DEST="governance/governance-v${VERSION}.md"
 cd "$REPO_ROOT"
@@ -47,13 +50,32 @@ the signing key ($KEY_FPR). Fix the mismatch before publishing."
 fi
 [ -z "$DNS_FPR" ] && printf 'warning: could not read _archive-key.cfi.co; continuing\n' >&2
 
-cp "$SRC" "$DEST"
-SHA="$(sha256sum "$DEST" | awk '{print $1}')"
+# Hash the source directly: a dry run must not write anything into the tree.
+SHA="$(sha256sum "$SRC" | awk '{print $1}')"
 DATE="$(date -u +%Y-%m-%d)"
-BYTES="$(wc -c < "$DEST" | tr -d ' ')"
+BYTES="$(wc -c < "$SRC" | tr -d ' ')"
 
 printf '\n  version   v%s\n  file      %s\n  bytes     %s\n  sha256    %s\n  date      %s (UTC)\n\n' \
     "$VERSION" "$DEST" "$BYTES" "$SHA" "$DATE"
+
+TAGMSG="$(printf 'CFI.co governance v%s\n\nAdopted %s (UTC).\nFile: %s\nSHA-256: %s\n\nPublished hash: %s\nKey fingerprint: %s\n' \
+    "$VERSION" "$DATE" "$DEST" "$SHA" "$HASH_PAGE" "$KEY_FPR")"
+
+if [ "$DRY" = "1" ]; then
+    printf 'DRY RUN — nothing written, committed, tagged, stamped or pushed.\n\n'
+    printf 'Would place:   %s -> %s\n' "$SRC" "$DEST"
+    printf 'Would append to MANIFEST.md:\n'
+    printf '  | v%s | %s | %s | `%s` | `v%s` | OpenTimestamps + Internet Archive |\n' \
+        "$VERSION" "$DATE" "$BYTES" "$SHA" "$VERSION"
+    printf 'Would tag:     v%s (signed, %s)\n' "$VERSION" "$KEY_FPR"
+    printf 'Would stamp:   %s  (OpenTimestamps -> %s.ots)\n' "$DEST" "$DEST"
+    printf '\nTag message would be:\n---\n%s\n---\n' "$TAGMSG"
+    printf '\nWould publish on %s:\n' "$HASH_PAGE"
+    printf '  Governance v%s — adopted %s — SHA-256 %s\n\n' "$VERSION" "$DATE" "$SHA"
+    exit 0
+fi
+
+cp "$SRC" "$DEST"
 
 # MANIFEST is append-only in practice: new rows go on the end, old rows are never touched.
 if [ ! -f MANIFEST.md ]; then
@@ -69,20 +91,6 @@ HDR
 fi
 printf '| v%s | %s | %s | `%s` | `v%s` | OpenTimestamps + Internet Archive |\n' \
     "$VERSION" "$DATE" "$BYTES" "$SHA" "$VERSION" >> MANIFEST.md
-
-TAGMSG="$(printf 'CFI.co governance v%s\n\nAdopted %s (UTC).\nFile: %s\nSHA-256: %s\n\nPublished hash: %s\nKey fingerprint: %s\n' \
-    "$VERSION" "$DATE" "$DEST" "$SHA" "$HASH_PAGE" "$KEY_FPR")"
-
-if [ "$DRY" = "1" ]; then
-    printf 'DRY RUN — nothing committed, tagged, stamped or pushed.\n\n'
-    printf 'Would commit:  %s, MANIFEST.md\n' "$DEST"
-    printf 'Would tag:     v%s (signed, %s)\n' "$VERSION" "$KEY_FPR"
-    printf 'Would stamp:   %s\n' "$DEST"
-    printf '\nTag message would be:\n---\n%s\n---\n' "$TAGMSG"
-    printf '\nPaste onto %s:\n\n' "$HASH_PAGE"
-    printf '  Governance v%s — adopted %s — SHA-256 %s\n\n' "$VERSION" "$DATE" "$SHA"
-    exit 0
-fi
 
 git add "$DEST" MANIFEST.md
 git commit -S -q -m "governance: publish v${VERSION} (sha256 ${SHA})"
