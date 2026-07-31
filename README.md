@@ -34,8 +34,17 @@ it is verified as one document: by its hash, its signature, and its anchors.
 5. The file is timestamped with OpenTimestamps, and the cfi.co page carrying the hash is
    captured by the Internet Archive. Both anchors are outside CFI.co's control.
 
-Superseded versions stay. A version is never edited after publication, and never removed. If
-a version is superseded, the later version is added and `MANIFEST.md` records the succession.
+Superseded versions stay. When a version is superseded the later version is added alongside it,
+and `MANIFEST.md` records the succession.
+
+Rather than promise that a published version is never edited or removed, here is what would
+have to fail for that to happen without you noticing. Force-pushes and branch deletions are
+blocked on `main`. Each published version carries a signed tag, and its SHA-256 is recorded in
+three places maintained separately — `MANIFEST.md`, the tag message, and the hash page on
+cfi.co. The file is timestamped with OpenTimestamps and the hash page is captured by the
+Internet Archive, both held by parties CFI.co does not control. A rewritten history would stop
+matching them. That is a weaker sentence than "never", and a stronger guarantee, because you can
+check it yourself.
 
 ## The signing key
 
