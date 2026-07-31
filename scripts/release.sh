@@ -82,8 +82,10 @@ if [ ! -f MANIFEST.md ]; then
     cat > MANIFEST.md <<'HDR'
 # Published versions
 
-Every version of the CFI.co governance file published in this repository. Rows are added,
-never edited or removed. See [VERIFY.md](VERIFY.md) for how to check any row.
+Every version of the CFI.co governance file published in this repository. Rows are appended as
+versions are adopted. Each row can be checked against the file it describes, the signed tag, and
+the hash published on cfi.co, so you do not have to take the row's word for itself - see
+[VERIFY.md](VERIFY.md).
 
 | Version | Adopted (UTC) | Bytes | SHA-256 | Signed tag | Anchored |
 |---|---|---|---|---|---|
