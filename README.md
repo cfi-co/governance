@@ -72,10 +72,17 @@ See [`VERIFY.md`](VERIFY.md) for the commands.
 
 ## Status
 
-**No version is published here yet.** Governance v2.0 (2 July 2026) is the version in force
-and has not been published to this repository. Governance v3.0 is drafted and unadopted; an
-unadopted draft is not published here, because publishing a draft as though it governed
-anything is the failure this file exists to prevent.
+**Public Edition v1.0 (internal v3.0) is published here**, adopted 1 August 2026. It is the
+first governance file CFI.co has published. Versions 1.0 and 2.0, both adopted 2 July 2026,
+were internal; this edition supersedes them and is published in full.
 
-This repository exists and is named ahead of adoption so that the address in the governance
-file's adoption block is fixed and stable before it is signed.
+The adopted text is `governance/governance-public-edition-v1.0.docx`, SHA-256
+`6829072874467AB111D4A68C3A1D36FF111E5ACA52501B2EB13E287130B567CB`. A Markdown rendering is
+published beside it for reading by people and machines; where the two differ, the `.docx`
+governs. Both hashes are recorded in `governance/MANIFEST.md` and carried by the signed tag.
+
+One principal's agreement is published as a separately signed statement,
+`governance/step2-agreement.txt.asc`, under a key held by that principal personally and
+present on no CFI.co server. Adoption was entered by the publisher on behalf of both
+signatories; that statement is the part of the record which can be verified without relying
+on our account of it.
