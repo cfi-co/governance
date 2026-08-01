@@ -1,0 +1,5 @@
+# Signed material must never be line-ending normalised: it moves the file hash
+# without changing the content, and a published hash then cannot be reproduced.
+*.asc -text
+*.sig -text
+*.docx -text

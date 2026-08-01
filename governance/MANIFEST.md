@@ -8,13 +8,22 @@ Adopted 1 August 2026.
 |---|---|---|
 | `governance-public-edition-v1.0.docx` | `6829072874467AB111D4A68C3A1D36FF111E5ACA52501B2EB13E287130B567CB` | **the adopted text.** This is the file both principals put their names to. |
 | `governance-public-edition-v1.0.md` | `ECB54D801065DCB2E4CF398E7FD1A08C0387FC42BF009ED6943D37DC88901938` | a rendering of the above, for reading by people and machines. Not a second version. |
-| `step2-agreement.txt.asc` | `E4681FDD186F820BA962D19600335EB24D664B2838CE6910D5753D274BD1ABD6` | a principal's signed agreement to the adoption, over the `.docx` hash. |
+| `step2-agreement.txt.asc` | `E7180A7E6F91AC9CDBA1F089A053D319AA459056800A3E892DE433C2CC9F1445` | a principal's signed agreement to the adoption, over the `.docx` hash. |
 
 Where the rendering and the `.docx` differ, the `.docx` governs and the difference is a
 defect to be corrected. The `.docx` was hashed as supplied; a Word file is a zip archive
 whose bytes change on every save, so that number identifies this file rather than being
 reproducible from the text. That is why the rendering carries its own hash: it is the
 artefact a reader can regenerate and compare.
+
+The hash recorded for the signed statement is the hash of the file **as stored in this
+repository**. It was corrected on 1 August 2026, within the hour of publication. The statement
+was signed on a Windows machine and carried CRLF line endings; git normalised them to LF when
+it was committed, which moved the file's hash without altering a character of its content. The
+first manifest published the pre-normalisation number, which no reader could have reproduced
+from the file served here. The signature itself was never affected — OpenPGP canonicalises line
+endings before hashing the text, so it verifies against either form — and `.gitattributes` now
+stops signed files being normalised in future.
 
 ## Checking it yourself
 
