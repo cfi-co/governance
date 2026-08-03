@@ -11,7 +11,7 @@ Wales (number 08420396).
 | Path | What it is |
 |---|---|
 | `governance/` | Each adopted version of the governance file, as adopted. |
-| `MANIFEST.md` | Every published version: date, SHA-256, signed tag, anchor status. |
+| `governance/MANIFEST.md` | Every published version: date, SHA-256, signed tag, anchor status. |
 | `VERIFY.md` | How to check that what you are reading is what was published. |
 | `scripts/release.sh` | The tool that publishes a version: hashes it, signs it, anchors it. |
 
@@ -28,7 +28,7 @@ it is verified as one document: by its hash, its signature, and its anchors.
 
 1. The file is adopted under its own adoption mechanics, signed by the principals.
 2. It is committed here under `governance/`, and the commit is signed.
-3. The commit is tagged `vN.N`, and the tag is signed.
+3. The commit is tagged after the edition — `public-edition-v1.0` for the current one — and the tag is signed.
 4. The SHA-256 of the file is recorded in `MANIFEST.md` and published on cfi.co, so the two
    can be compared without trusting either one.
 5. The file is timestamped with OpenTimestamps, and the cfi.co page carrying the hash is
@@ -48,15 +48,27 @@ check it yourself.
 
 ## The signing key
 
-Commits and tags here are signed with the CFI.co Transparency Archive key:
+Commits and tags here are signed by the publisher, on the publisher's own machine, with the
+CFI.co Publisher Counter-Signature key:
 
 ```
-B497 BDC1 9FCD 4879 72D5  D2B0 876F F2AA 3913 3BF8
-archive@cfi.co · ed25519 · created 2026-07-10
+60AE C217 836A 905D CFED  94F4 097D 7CA6 4028 F174
+publisher@cfi.co · ed25519 · created 2026-07-30 · expires 2028-07-29
 ```
 
-The same fingerprint is published in DNS at `_archive-key.cfi.co` and on
+The same fingerprint is published in DNS at `_archive-publisher.cfi.co` and on
 <https://cfi.co/archive/>. Check it in both places before trusting a signature here.
+
+A second key signs elsewhere in CFI.co's record and signs **nothing** in this repository: the
+CFI.co Transparency Archive key, `B497 BDC1 9FCD 4879 72D5  D2B0 876F F2AA 3913 3BF8`
+(`archive@cfi.co`, anchored at `_archive-key.cfi.co`). It sits on a CFI.co server and is
+driven by scheduled jobs; it signs release manifests and the daily archive automation. Nothing
+published here is signed by a key CFI.co's own machines hold, and that separation is the point.
+A verifier who checks a tag in this repository against the archive fingerprint will get a
+mismatch, and should.
+
+All four keys in CFI.co's record, and which machine each is held on, are listed at
+<https://cfi.co/archive/> and in the custody table at <https://cfi.co/governance/>.
 
 ## What verification proves, and what it does not
 

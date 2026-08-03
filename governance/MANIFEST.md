@@ -43,12 +43,14 @@ separately, so that neither CFI.co alone nor a keyserver alone is the source of 
 |---|---|---|
 | `C5FD92210CCF0D31271EA4BC6B681CAAA8BAA1FE` | Marten Mark `<mma@cfi.co>` | held by the principal personally, on a machine CFI.co does not operate |
 | `60AEC217836A905DCFED94F4097D7CA64028F174` | CFI.co Publisher Counter-Signature `<publisher@cfi.co>` | held by the publisher; not on any CFI.co server |
-| `B497BDC19FCD487972D5D2B0876FF2AA39133BF8` | CFI.co Transparency Archive `<archive@cfi.co>` | on the CFI.co server, driven by scheduled jobs |
+| `DAA22F2408ADD091E9D800B36046432BC2896172` | CFI.co Archive Custodian `<custodian@cfi.co>` | held by the custodian personally, on a machine CFI.co does not operate |
+| `B497BDC19FCD487972D5D2B0876FF2AA39133BF8` | CFI.co Transparency Archive `<archive@cfi.co>` | on the CFI.co server, driven by scheduled jobs; the key is not passphrase-protected, so its signature attests to the estate rather than to any person |
 
-The distinction is deliberate and is the point of publishing three signatures rather than
-one. The archive key can be operated by automation; the other two cannot. A reader who wants
-to know whether this release was produced by a single actor can establish it from the
-signatures rather than being told.
+The distinction is deliberate. One of these keys sits on a CFI.co server and can be operated
+by automation; the other three are held by people, on machines CFI.co does not operate. Two of
+those three — the principal key and the custodian key — are in the same principal's custody.
+Four keys, two people, one server. A reader who wants to know whether something was produced
+by a single actor can establish it from the signatures rather than being told.
 
 ## How adoption was entered
 

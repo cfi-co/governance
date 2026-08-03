@@ -3,3 +3,4 @@
 *.asc -text
 *.sig -text
 *.docx -text
+*.md -text
