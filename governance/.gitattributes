@@ -4,3 +4,11 @@
 *.sig -text
 *.docx -text
 *.md -text
+
+# MANIFEST.sha256 is the file MANIFEST.sha256.asc signs and MANIFEST.sha256.ots
+# timestamps. Normalising its line endings on checkout would move its hash, and both
+# the signature and the timestamp would then fail to verify against the copy the
+# reader holds - on Windows, for a reason that has nothing to do with the content.
+# The .ots proof is binary and must not be touched at all.
+*.sha256 -text
+*.ots -text -diff
